@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block body %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('static/assets/img/register-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Register</h1>
+                    <span class="subheading">Register an account</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-8 col-lg-7 col-xl-6 col-xxl-5">
+                <p class="text-start">
+
+                </p>
+                {% if error %}
+                <p style="color: red; font-size: 1rem;">
+                    {{ error }}
+                </p>
+                {% endif %}
+                <div class="my-5">
+                    <form id="registerForm" name="registerForm" action="{{ url_for('register') }}" method="post"
+                        novalidate>
+                        {{ form.csrf_token }}
+                        <div class="form-floating">
+                            <input class="form-control" id="name" name="name" type="text" placeholder=""
+                                style="height: 4rem" value="{% if form.name.data %}{{ form.name.data }}{% endif %}" />
+                            <label for="title">{{ form.name.label }}
+                            </label>
+                            {% for error in form.name.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" id="email" name="email" type="text" placeholder=""
+                                style="height: 4rem" value="{% if form.email.data %}{{ form.email.data }}{% endif %}" />
+                            <label for="title">{{ form.email.label }}
+                            </label>
+                            {% for error in form.email.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" id="password" name="password" type="password" placeholder=""
+                                style="height: 4rem"
+                                value="{% if form.password.data %}{{ form.password.data }}{% endif %}" />
+                            <label for="title">{{ form.password.label }}
+                            </label>
+                            {% for error in form.password.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">{{ error }}</p>
+                            {% endfor %}
+                            {% if form.password.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">And contain:</p>
+                            <ul style="color: red; font-size: 1rem;">
+                                <li>one lowercase letter</li>
+                                <li>one uppercase letter</li>
+                                <li>one number</li>
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" id="repeat_password" name="repeat_password" type="password"
+                                placeholder="" style="height: 4rem"
+                                value="{% if form.repeat_password.data %}{{ form.repeat_password.data }}{% endif %}" />
+                            <label for="title">{{ form.repeat_password.label }}
+                            </label>
+                            {% for error in form.repeat_password.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <br>
+                        <button class="btn btn-warning text-uppercase" id="submitButton" type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

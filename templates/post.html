@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %} Post {% endblock %}
+
+{% block body %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url(
+    {% if post.img_url|length >= 5 %}
+    '{{ post.img_url }}'
+    {% else %}
+    '../static/assets/img/post-bg.jpg'
+    {% endif %}
+    )">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="post-heading">
+                    <h1>{{ post.title }}</h1>
+                    <h2 class="subheading">{{ post.subtitle }}</h2>
+                    <span class="meta">
+                        Posted by
+                        <a href="{{ url_for('users_posts', user=post.author, page=0) }}" class="hover-link">{{ post.author }}</a>
+                        on {{ post.date.strftime("%Y-%m-%d %H:%m")}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Post Content-->
+<article class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                {% for par in post.separate_body() %}
+                <p style="text-align: justify;">
+                    {{ par | safe }}
+                </p>
+                {% endfor %}
+                {% if current_user.name == post.author %}
+                <div class="text-end">
+                    <a class="btn btn-warning text-uppercase" href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</article>
+{% endblock body %}

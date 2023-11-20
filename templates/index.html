@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %} Our Blog {% endblock %}
+
+{% block body %}
+
+<!-- Page Header-->
+<main>
+    <section>
+        <header class="masthead mb-0" style="background-image: url('static/assets/img/home-bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>Our Blog</h1>
+                            <span class="subheading">This is our blog</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </section>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="mt-0 mb-4 text-center" style="background-color: green; font-size: medium;">
+            {% for message in messages %}
+                <p class="m-0"">
+                    {{ message }}
+                </p>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <!-- Main Content-->
+    <section>
+        <div class="container px-4 px-lg-5 ">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    {% if posts %}
+                    {% for row in posts %}
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        <a href="{{ url_for('view_post', id=row.id) }}">
+                            <h2 class="post-title">{{ row.title }}</h2>
+                            <h3 class="post-subtitle">{{ row.subtitle }}.</h3>
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+
+                            <a href="{{ url_for('users_posts', user=row.author, page=0) }}">{{ row.author }}</a>
+                            on {{ row.date.strftime("%Y-%m-%d %H:%M")}}
+                        </p>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+                    {% else %}
+                    <div class="text-center">
+                        <p>There are no posts here.</p>
+                    </div>
+                    {% endif %}
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-center my-5 gx-5">
+                        {% if page > 1 %}
+                        <div class="col text-center">
+                            <a class="btn btn-warning text-uppercase" href="{{ url_for('page', page=page-1) }}">← Newer
+                                Posts
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if posts %}
+                        <div class="col text-center">
+                            <a class="btn btn-warning text-uppercase" href=
+                            {% if not page or page == 1  %}
+                            "{{ url_for('page', page=page+2) }}"
+                            {% else %}
+                            "{{ url_for('page', page=page+1) }}"
+                            {% endif %}
+                            >Older Posts →
+                            </a>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

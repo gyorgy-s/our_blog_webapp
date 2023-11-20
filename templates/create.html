@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %} Create post {% endblock %}
+
+{% block body %}
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('static/assets/img/add-bg.jpg')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Create post</h1>
+                    <span class="subheading">What's on your mind?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p class="text-start">
+                    {% raw %}
+                    To create a new post, just fill out the form below.
+                    You can add images to your post's body by inserting the link between {{img}} {{/img}} tags.
+                    {% endraw %}
+                </p>
+                {% if error %}
+                <p style="color: red;">
+                    {{ error }}
+                </p>
+                {% endif %}
+                <div class="my-5">
+                    <form id="createPost" name="createPost" action="{{ url_for('create_post') }}" method="post"
+                        novalidate>
+                        {{ form.csrf_token }}
+                        <div class="form-floating">
+                            <textarea class="form-control" id="title" name="title" placeholder=""
+                                style="height: 5.5rem">{% if form.title.data %}{{ form.title.data }}{% endif %}</textarea>
+                            <label for="title">{{ form.title.label }}
+                                {% for error in form.title.errors %}
+                                <span style="color: red; font-size: 1rem; margin: 0;">{{ error }}</span>
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <div class="form-floating">
+                            <textarea class="form-control" id="subtitle" name="subtitle" placeholder=""
+                                style="height: 8rem">{% if form.subtitle.data %}{{ form.subtitle.data }}{% endif %}</textarea>
+                            <label for="subtitle">{{ form.subtitle.label }}
+                            </label>
+                            {% for error in form.subtitle.errors %}
+                            <span style="color: red; font-size: 1rem; margin: 0;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-floating">
+                            <input class="form-control" id="img_url" name="img_url" type="text" placeholder=""
+                                style="height: 4rem"
+                                value="{% if form.img_url.data %}{{ form.img_url.data }}{% endif %}" />
+                            <label for="title">{{ form.img_url.label }}
+                            </label>
+                            {% for error in form.img_url.errors %}
+                            <p style="color: red; font-size: 1rem; margin: 0;">{{ error }}</p>
+                        </div>
+                        {% endfor %}
+                        <div class="form-floating">
+                            <textarea class="form-control" id="body" name="body" placeholder=""
+                                style="height: 24rem">{% if form.body.data %}{{ form.body.data }}{% endif %}</textarea>
+                            <label for="body">{{ form.body.label }}
+                            </label>
+                            {% for error in form.body.errors %}
+                            <span style="color: red; font-size: 1rem; margin: 0;">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <br />
+                        <button class="btn btn-warning text-uppercase" id="submitButton" type="submit">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}
